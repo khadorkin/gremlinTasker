@@ -1,0 +1,47 @@
+redis:
+  image: redis
+
+db:
+  image: postgres
+  environment:
+    POSTGRES_DB: gremlin_tasker
+    POSTGRES_PASSWORD: mysecretpassword
+
+weba:
+  build: .
+  expose:
+    - 80
+  links:
+    - redis
+    - db
+
+webb:
+  build: .
+  expose:
+    - 80
+  links:
+    - redis
+    - db
+
+webc:
+  build: .
+  expose:
+    - 80
+  links:
+    - redis
+    - db
+
+haproxy:
+  image: haproxy
+  volumes:
+    - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+  links:
+   - weba
+   - webb
+   - webc
+  ports:
+   - "80:80"
+   - "70:70"
+  expose:
+   - "80"
+   - "70"

@@ -1,0 +1,32 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "mysecretpassword",
+    "database": "gremlin_tasker",
+    "host": "db",
+    "port": 5432,
+    "dialect": "postgres",
+    "redis": {
+      "host": "redis",
+      "port": 6379
+    }
+  },
+  "test": {
+    "db": {
+      "username": "root",
+      "password": null,
+      "database": "database_development",
+      "host": "127.0.0.1",
+      "dialect": "postgres"
+    }
+  },
+  "production": {
+    "db": {
+      "username": "root",
+      "password": null,
+      "database": "database_development",
+      "host": "127.0.0.1",
+      "dialect": "postgres"
+    }
+  }
+}
