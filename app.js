@@ -24,7 +24,7 @@ const app = express();
 
 // Security Items
 const helmet = require('helmet');
-app.use(helmet.hidePoweredBy({setTo: 'toaster'}));
+app.use(helmet.hidePoweredBy({setTo: 'A Toaster'}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
