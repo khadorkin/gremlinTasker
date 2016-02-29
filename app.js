@@ -18,7 +18,7 @@ const AuthService = require('./services/security/authService');
 const routes = require('./routes/index');
 const users = require('./routes/users');
 const apiV1Users = require('./routes/api/v1/users');
-const apiV1Schema = require('./routes/api/v1/schema');
+const apiV1Graphql = require('./routes/api/v1/graphql');
 
 const app = express();
 
@@ -48,7 +48,7 @@ app.use('/api/v1/users', apiV1Users);
 app.use('/api/v1/graphql',
   AuthService.userSessionMiddleware,
   GraphHTTP((req) => ({
-    schema: apiV1Schema,
+    schema: apiV1Graphql,
     rootValue: { session: req.session },
     pretty: true
   })

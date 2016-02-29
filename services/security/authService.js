@@ -9,18 +9,16 @@ const Uuid = require('uuid');
 /**
  * Saves/Updates a userSession.
  *
- * @param Object user A user boject.
- * @param Boolean keeplogedIn Whether or not to keep the session alive.
- * @param String uuid A session key if you want to update a session.
- * @return String The session key.
+ * @param {Object} user - A user boject.
+ * @param {Boolean} keeplogedIn - Whether or not to keep the session alive.
+ * @param {String} uuid - A session key if you want to update a session.
+ * @return {String} uuid - The session key.
  */
 exports.saveUserSession = function(user, keepLogedIn, uuid) {
   const client = getClient();
 
-  delete user["password"];
-
   let session = {
-    user: JSON.stringify(user),
+    userId: user.id,
     keeplogedIn: keepLogedIn
   }
 
@@ -40,10 +38,32 @@ exports.saveUserSession = function(user, keepLogedIn, uuid) {
 };
 
 /**
+ * This is the deleteUserSession callback.
+ * @callback AuthService-DeleteSessionCB
+ * @param {String} err
+ */
+
+/**
+ * This will delete a user Session.
+ * @param {String} uuid
+ * @param {AuthService-DeleteSessionCB} cb
+ */
+exports.deleteUserSession = function(uuid, cb) {
+  const client = getClient();
+  client.delete(uuid, (err, value) => {
+    if (err) {
+      cd(err);
+    }
+    cb();
+  });
+  client.end();
+}
+
+/**
  * Use this to autherize a user and save it to the session.
  *
- * @param Request req
- * @param Response res
+ * @param {Request} req
+ * @param {Response} res
  * @param function next
  */
 exports.userSessionMiddleware = function(req, res, next) {
@@ -70,9 +90,13 @@ exports.userSessionMiddleware = function(req, res, next) {
     }
 
     if (value) {
-      value.user = JSON.parse(value.user);
-      req.session = value;
-      next();
+      User.findById(value.userId)
+        .then( (user) => {
+          value.user = user;
+          req.session = value;
+          next();
+        });
+
     }
     client.end(true);
   });

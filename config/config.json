@@ -3,6 +3,18 @@
     "username": "postgres",
     "password": "mysecretpassword",
     "database": "gremlin_tasker",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres",
+    "redis": {
+      "host": "127.0.0.1",
+      "port": 6379
+    }
+  },
+  "docker": {
+    "username": "postgres",
+    "password": "pizzaIsL0veP1zzaIsL1fe",
+    "database": "gremlin_tasker",
     "host": "db",
     "port": 5432,
     "dialect": "postgres",

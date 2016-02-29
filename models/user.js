@@ -1,12 +1,12 @@
 "use strict";
 
-const bcrypt = require("bcryptjs");
+const bcrypt = require('bcryptjs');
 
 module.exports = function(sqlize, DataTypes) {
 
   // Define the user.
-  let user = sqlize.define('user', {
-    username: {
+  let User = sqlize.define('user', {
+     username: {
       type: DataTypes.STRING,
       allowNull: false,
       field: 'username',
@@ -32,7 +32,7 @@ module.exports = function(sqlize, DataTypes) {
       validate: {
         notEmpty: true
       },
-      set: function(val) {
+      set(val) {
         this.setDataValue('password', bcrypt.hashSync(val));
       }
     }
@@ -56,14 +56,19 @@ module.exports = function(sqlize, DataTypes) {
        * @param function(error, boolean isMatched) cb
        * @return {Boolean}
        */
-      checkPassword: function(password, cb) {
+      checkPassword(password, cb) {
         return bcrypt.compare(password, this.password, cb);
       }
+    },
+    classMethods: {
+      // Define the relationships
+      associate(models) {
+        User.hasMany(models.task, {as: 'tasks'});
+      }
     }
-  });
-
-  // Define the relationships
+  }
+);
 
   // Return the user.
-  return user;
+  return User;
 };

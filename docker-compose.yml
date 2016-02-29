@@ -5,10 +5,12 @@ db:
   image: postgres
   environment:
     POSTGRES_DB: gremlin_tasker
-    POSTGRES_PASSWORD: mysecretpassword
+    POSTGRES_PASSWORD: pizzaIsL0veP1zzaIsL1fe
 
 weba:
-  build: .
+  build:
+  environment:
+    NODE_ENV: docker
   expose:
     - 80
   links:
@@ -19,6 +21,8 @@ webb:
   build: .
   expose:
     - 80
+  environment:
+    NODE_ENV: docker
   links:
     - redis
     - db
@@ -27,6 +31,8 @@ webc:
   build: .
   expose:
     - 80
+  environment:
+    NODE_ENV: docker
   links:
     - redis
     - db

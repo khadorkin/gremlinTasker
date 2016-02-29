@@ -63,8 +63,17 @@ router.post('/login', (req, res, next) => {
 });
 
 /* Log the user out */
-router.post('/logout', (req, res, next) => {
-  AuthService.deleteuserSession(req.get('authorization'));
-});
+router.post('/logout',
+  AuthService.userSessionMiddleware,
+  (req, res, next) => {
+    AuthService.deleteUserSession(req.get('authorization'), (err) => {
+      if (err) {
+        res.status(500).send(err);
+        return;
+      }
+      res.send({message: 'Success'});
+    });
+  }
+);
 
 module.exports = router;
