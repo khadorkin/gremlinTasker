@@ -1,7 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom'
-const ApiService = require('./../middleware/apiService.jsx');
+import { hashHistory } from 'react-router'
 const LinkedStateMixin = require('react-addons-linked-state-mixin');
+
+let ApiService = {};
 
 const Form = React.createClass({
   mixins: [LinkedStateMixin],
@@ -12,16 +14,30 @@ const Form = React.createClass({
     };
   },
 
-  handleSubmit(e) {
-    e.preventDefault();
-    // TODO: Process the login.
-    ApiService.login(this.state);
-    console.log(this.state);
+  handleSubmit(event) {
+    event.preventDefault();
+
+    ApiService.login(this.state, (err, response) => {
+      if (err) {
+        let state = this.state;
+        state.error = err.data.message;
+        this.setState(state);
+        return;
+      }
+      hashHistory.push('/');
+    });
   },
 
   render() {
     return (
       <form action="" onSubmit={this.handleSubmit}>
+        <p>
+          {(() => {
+            if (this.state.error) {
+              return this.state.error;
+            }
+          })()}
+        </p>
         <div className="row mdl-textfield mdl-js-textfield mdl-cell--12-col">
           <input
             className="mdl-textfield__input"
@@ -45,11 +61,13 @@ const Form = React.createClass({
             Password
           </label>
         </div>
-        <button
-          type="submit"
-          className="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
-          Login
-        </button>
+        <div className="mdl-cell--12-col mdl-textfield--align-right">
+          <button
+            type="submit"
+            className="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
+            Login
+          </button>
+        </div>
       </form>
     );
   }
@@ -57,20 +75,26 @@ const Form = React.createClass({
 
 module.exports = React.createClass({
   componentDidMount() {
+    // Bind the API service.
+    ApiService = this.props.apiService;
+
     // This is needed because react-router + chrome prevents
     // the binding of onSubmit={this.handleSubmit}.
     render(
       <Form />,
       document.getElementById('loginForm')
     );
+
+    // Update the page title.
+    render(
+      <h3>Login</h3>,
+      document.getElementById('pageTitle')
+    );
   },
 
   render() {
     return (
-      <div>
-        <h3>Login</h3>
-        <div id="loginForm" />
-      </div>
+      <div id="loginForm" />
     );
   }
 });

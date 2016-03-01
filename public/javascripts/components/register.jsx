@@ -2,15 +2,17 @@ import React from 'react';
 import { render } from 'react-dom'
 const LinkedStateMixin = require('react-addons-linked-state-mixin');
 
+let ApiService = {};
+
 const Form = React.createClass({
   mixins: [LinkedStateMixin],
 
-  getIntitalState() {
+  getInitialState() {
     return {
       username: "",
       email: "",
       password: ""
-    }
+    };
   },
 
   handleSubmit(event) {
@@ -57,27 +59,41 @@ const Form = React.createClass({
             Password
           </label>
         </div>
+        <div className="mdl-cell--12-col mdl-textfield--align-right">
+          <button
+            type="submit"
+            className="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
+            Register
+          </button>
+        </div>
       </form>
     );
   }
 });
 
 module.exports = React.createClass({
-    componentDidMount() {
+  componentDidMount() {
+    // Bind the ApiService.
+    ApiService = this.props.apiService;
+
     // This is needed because react-router + chrome prevents
     // the binding of onSubmit={this.handleSubmit}.
     render(
       <Form />,
       document.getElementById('registerForm')
     );
+
+    // Update the page title.
+    render(
+      <h3>Register</h3>,
+      document.getElementById('pageTitle')
+    );
   },
 
   render() {
+
     return (
-      <div>
-        <h3>Register</h3>
-        <div id="registerForm" />
-      </div>
+      <div id="registerForm" />
     );
   }
 });
