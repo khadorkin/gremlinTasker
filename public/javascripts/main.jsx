@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
 // Components
@@ -25,4 +25,7 @@ const routes = {
   ]
 };
 
-render(<Router history={hashHistory} routes={routes} />, document.body);
+ReactDOM.render(
+  <Router history={hashHistory} routes={routes} />,
+  document.getElementById('appContainer')
+);

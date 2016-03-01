@@ -1,22 +1,17 @@
 import React from 'react';
-
-const Link = React.createClass({
-  render() {
-    return <a className="mdl-navigation__link" href={this.props.to}>{this.props.label}</a>;
-  }
-});
+import { Link } from 'react-router';
 
 module.exports = React.createClass({
   render() {
     // Build out the links dynamicly.
     let Links = this.props.routes.map(route => (
-      <Link {...route} />
+      <Link className="mdl-navigation__link" to={route.to}>{route.label}</Link>
     ));
     return (
       <nav className="mdl-navigation">
         {Links}
-        <a className="mdl-navigation__link" href="#/login">Login</a>
-        <a className="mdl-navigation__link" href="#/register">Register</a>
+        <Link className="mdl-navigation__link" to="/login">Login</Link>
+        <Link className="mdl-navigation__link" to="/register">Register</Link>
       </nav>
     )
   }

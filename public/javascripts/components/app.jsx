@@ -28,7 +28,7 @@ module.exports = React.createClass({
         </div>
 
         <main className="mdl-layout__content">
-          <div className="mdl-grid app-container" id="appContainer">
+          <div className="mdl-grid app-container">
             <div className="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone" />
             <div className="app-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
               {this.props.children}
