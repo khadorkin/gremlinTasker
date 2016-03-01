@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom'
+const ApiService = require('./../middleware/apiService.jsx');
 const LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 const Form = React.createClass({
@@ -14,6 +15,7 @@ const Form = React.createClass({
   handleSubmit(e) {
     e.preventDefault();
     // TODO: Process the login.
+    ApiService.login(this.state);
     console.log(this.state);
   },
 

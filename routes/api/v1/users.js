@@ -19,6 +19,7 @@ router.post('/register', (req, res, next) => {
 
 /* Log a User in. */
 router.post('/login', (req, res, next) => {
+  console.log(req.body);
   User.findOne({
     where: { username: req.body.username }
   })
@@ -28,8 +29,7 @@ router.post('/login', (req, res, next) => {
       // If error report back.
       if (err) {
         console.log(error);
-        res.status(500).send({message: "Something Broke."});
-        res.status(500).send(err);
+        res.status(500).send({message: "User not found."});
         return;
       }
 

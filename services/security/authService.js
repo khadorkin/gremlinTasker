@@ -52,7 +52,7 @@ exports.deleteUserSession = function(uuid, cb) {
   const client = getClient();
   client.delete(uuid, (err, value) => {
     if (err) {
-      cd(err);
+      cb(err);
     }
     cb();
   });
