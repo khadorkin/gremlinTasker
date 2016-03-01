@@ -4,7 +4,7 @@ const Axios = require('axios');
 let session = JSON.parse(document.cookie);
 
 let apiConfig = {
-  baseURL: 'http://localhost/api/v1/',
+  baseURL: '/api/v1/',
 };
 
 function baseApi() {
