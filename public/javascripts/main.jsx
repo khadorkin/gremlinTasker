@@ -23,7 +23,7 @@ const LoginWrapper = React.createClass({
 
 const AppWrapper = React.createClass({
   render() {
-    return <App apiService={ApiService} />;
+    return <App {...this.props} apiService={ApiService} />;
   }
 });
 

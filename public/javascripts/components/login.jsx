@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from 'react-dom'
-import { hashHistory } from 'react-router'
+import { render } from 'react-dom';
+import { hashHistory } from 'react-router';
 const LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 let ApiService = {};

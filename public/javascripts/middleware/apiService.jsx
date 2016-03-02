@@ -46,12 +46,22 @@ exports.isAuthenticated = function() {
  */
 exports.login = function(loginData, callBack) {
   baseApi().post('users/login', loginData)
-    .then((response) => {
+    .then( (response) => {
       document.cookie = JSON.stringify(response.data);
       session = response.data;
       callBack(null, response);
     })
-    .catch((response) => {
+    .catch( (response) => {
       callBack(response, null);
+    });
+};
+
+exports.register = function(registerData, callBack) {
+  baseApi().post('users/register', registerData)
+    .then( (response) => {
+      callBack(null, response);
+    })
+    .catch( (response) => {
+      callBack(reponse, null);
     });
 };

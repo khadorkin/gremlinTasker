@@ -1,5 +1,6 @@
 import React from 'react';
-import { render } from 'react-dom'
+import { render } from 'react-dom';
+import { hashHistory } from 'react-router';
 const LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 let ApiService = {};
@@ -17,13 +18,27 @@ const Form = React.createClass({
 
   handleSubmit(event) {
     event.preventDefault();
-    // TODO: Process the registration.
-    consolt.log(this.state);
+    ApiService.register(this.state, (err, response) => {
+      if (err) {
+        let state = this.state;
+        state.error = err.data.message;
+        this.setState(state);
+        return;
+      }
+      hashHistory.push('login');
+    });
   },
 
   render() {
     return (
       <form action="" onSubmit={this.handleSubmit}>
+        <p>
+          {(() => {
+            if (this.state.error) {
+              return this.state.error;
+            }
+          })()}
+        </p>
         <div className="row mdl-textfield mdl-js-textfield mdl-cell--12-col">
           <input
             className="mdl-textfield__input"
