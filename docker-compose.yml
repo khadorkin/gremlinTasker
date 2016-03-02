@@ -8,7 +8,7 @@ db:
     POSTGRES_PASSWORD: pizzaIsL0veP1zzaIsL1fe
 
 weba:
-  build:
+  build: .
   environment:
     NODE_ENV: docker
   expose:
