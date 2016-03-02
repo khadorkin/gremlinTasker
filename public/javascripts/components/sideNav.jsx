@@ -4,25 +4,53 @@
 
 import React from 'react';
 import { Link } from 'react-router';
+const Immutable = require('immutable');
 
-let ApiService = {};
+const baseRoutes = [
+  {to: '/login', label: 'Login'},
+  {to: '/register', label: 'Register'}
+];
+
+const loggedInRoutes = [
+  {to: '/logout', label: 'logout'}
+];
 
 module.exports = React.createClass({
-  componentDidMount() {
-    // Bind the API service.
-    ApiService = this.props.apiService;
+  buildState(props) {
+    // Update the state.
+    let state = Immutable.Map(props).toObject();
+
+    // Update the routes
+    state.routes = baseRoutes;
+    if (state.apiService.isAuthenticated()) {
+      state.routes = loggedInRoutes;
+    }
+    this.setState(state);
   },
+
+  getInitialState() {
+    return {
+      routes: baseRoutes
+    };
+  },
+
+  componentDidUpdate() {
+    this.buildState(this.state);
+  },
+
+  componentDidMount() {
+    this.buildState(this.props);
+  },
+
   render() {
     // Build out the links dynamicly.
-    let Links = this.props.routes.map(route => (
+    let Links = this.state.routes.map(route => (
       <Link className="mdl-navigation__link" to={route.to}>{route.label}</Link>
     ));
     return (
       <nav className="mdl-navigation">
         {Links}
-        <Link className="mdl-navigation__link" to="/login">Login</Link>
-        <Link className="mdl-navigation__link" to="/register">Register</Link>
       </nav>
-    )
+    );
   }
 });

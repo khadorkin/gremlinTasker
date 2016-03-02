@@ -3,18 +3,35 @@
  */
 
 import React from 'react';
+import {render} from 'react-dom';
+const Immutable = require('immutable');
 const SideNav = require('./sideNav.jsx');
-
-let ApiService = {};
 
 const sideNavLinks = [
 ];
 
 module.exports = React.createClass({
-  componentDidMount() {
-    // Bind the API service.
-    ApiService = this.props.apiService;
+  buildState(props) {
+    // Update the state.
+    let state = Immutable.Map(props).toObject();
+    this.setState(state);
+    return state;
   },
+
+  getInitialState() {
+    return this.buildState(this.props);
+  },
+
+  componentDidUpdate() {
+    // Update the state.
+    this.buildState(this.state);
+  },
+
+  componentDidMount() {
+    // update the state.
+    this.buildState(this.props);
+  },
+
   render() {
     return (
       <div className="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
@@ -42,7 +59,7 @@ module.exports = React.createClass({
 
         <div className="mdl-layout__drawer" id="sideNav">
           <span className="mdl-layout-title">Germlin Tasker</span>
-          <SideNav apiService={this.props.apiService} routes={sideNavLinks} />
+          <SideNav {...this.state} />
         </div>
 
         <main className="mdl-layout__content">
@@ -54,6 +71,6 @@ module.exports = React.createClass({
           </div>
         </main>
       </div>
-    )
+    );
   }
 });
