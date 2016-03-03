@@ -43,8 +43,7 @@ router.post('/login', (req, res, next) => {
       if (isMatch) {
         let uuid = AuthService.saveUserSession(
           user,
-          req.body.keepLogedIn,
-          req.get('authorization')
+          req.body.keepLogedIn
         );
         res.send({session_id: uuid});
         return;

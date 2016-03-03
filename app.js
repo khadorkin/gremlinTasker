@@ -50,7 +50,8 @@ app.use('/api/v1/graphql',
   GraphHTTP((req) => ({
     schema: apiV1Graphql,
     rootValue: { session: req.session },
-    pretty: true
+    pretty: true,
+    graphiql: true
   })
 )); // The graphql.
 

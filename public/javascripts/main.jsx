@@ -27,6 +27,12 @@ const AppWrapper = React.createClass({
   }
 });
 
+const GraphiQLWrapper = React.createClass({
+  render() {
+    return <GraphiQL fetcher={ApiService.graphiQLFetcher} />;
+  }
+});
+
 // TODO: Turn this into a list of tasks.
 const Home = React.createClass({
   render() {

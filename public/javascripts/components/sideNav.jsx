@@ -7,13 +7,40 @@ import { Link } from 'react-router';
 const Immutable = require('immutable');
 
 const baseRoutes = [
-  {to: '/login', label: 'Login'},
-  {to: '/register', label: 'Register'}
+  { to: '/login', label: 'Login' },
+  { to: '/register', label: 'Register' }
 ];
 
 const loggedInRoutes = [
-  {to: '/logout', label: 'logout'}
+
 ];
+
+const LoggedInNav = React.createClass({
+  render() {
+    let Links = this.props.routes.map(route => (
+      <Link className="mdl-navigation__link" to={route.to}>{route.label}</Link>
+    ));
+    return (
+      <nav className="mdl-navigation">
+        {Links}
+        <a className="mdl-navigation__link" href="/api/v1/graphql">GraphQL Explorer</a>
+      </nav>
+    );
+  }
+});
+
+const LoggedOutNav = React.createClass({
+  render() {
+    let Links = this.props.routes.map(route => (
+      <Link className="mdl-navigation__link" to={route.to}>{route.label}</Link>
+    ));
+    return (
+      <nav className="mdl-navigation">
+        {Links}
+      </nav>
+    );
+  }
+});
 
 module.exports = React.createClass({
   buildState(props) {
@@ -44,13 +71,13 @@ module.exports = React.createClass({
 
   render() {
     // Build out the links dynamicly.
-    let Links = this.state.routes.map(route => (
-      <Link className="mdl-navigation__link" to={route.to}>{route.label}</Link>
-    ));
-    return (
-      <nav className="mdl-navigation">
-        {Links}
-      </nav>
-    );
+    let Nav = <LoggedOutNav {...this.state} />;
+    if (this.state.hasOwnProperty('apiService')
+      && this.state.apiService.isAuthenticated()
+    ) {
+      Nav = <LoggedInNav {...this.state} />;
+    }
+
+    return Nav;
   }
 });

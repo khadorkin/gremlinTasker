@@ -7,9 +7,6 @@ import {render} from 'react-dom';
 const Immutable = require('immutable');
 const SideNav = require('./sideNav.jsx');
 
-const sideNavLinks = [
-];
-
 module.exports = React.createClass({
   buildState(props) {
     // Update the state.

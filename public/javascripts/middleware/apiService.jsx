@@ -1,10 +1,11 @@
 // Channel all api requests here.
 const Axios = require('axios');
+const Cookie = require('js-cookie');
 
 let session = {};
 
-if (document.cookie) {
-  session = JSON.parse(document.cookie);
+if (Cookie.get('session')) {
+  session = Cookie.getJSON('session');
 }
 
 
@@ -15,7 +16,7 @@ let apiConfig = {
 function baseApi() {
   if (session) {
     apiConfig.headers = {
-      Authorization: session.session_id
+      'Authorization': session.session_id
     };
   }
 
@@ -47,7 +48,7 @@ exports.isAuthenticated = function() {
 exports.login = function(loginData, callBack) {
   baseApi().post('users/login', loginData)
     .then( (response) => {
-      document.cookie = JSON.stringify(response.data);
+      Cookie.set('session', response.data);
       session = response.data;
       callBack(null, response);
     })
@@ -65,3 +66,10 @@ exports.register = function(registerData, callBack) {
       callBack(reponse, null);
     });
 };
+
+exports.graphiQLFetcher = function(graphQLParams) {
+  return baseApi().post('graphql', graphQLParams)
+    .then( (response) => {
+      return response.data;
+    });
+}

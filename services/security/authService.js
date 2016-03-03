@@ -2,7 +2,7 @@
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + './../../config/config.json')[env];
 const db = require('./../../models/index');
-const User = db.User;
+const User = db.user;
 const Redis = require('redis');
 const Uuid = require('uuid');
 
@@ -30,7 +30,6 @@ exports.saveUserSession = function(user, keepLogedIn, uuid) {
     if (!keepLogedIn) {
       client.expire(uuid, 3000);
     }
-
     client.end(true);
   });
 
@@ -67,7 +66,15 @@ exports.deleteUserSession = function(uuid, cb) {
  * @param function next
  */
 exports.userSessionMiddleware = function(req, res, next) {
-  let sessionId = req.get('authorization');
+  let sessionId = {};
+
+  if (req.cookies.hasOwnProperty('session')) {
+    const session = JSON.parse(req.cookies.session);
+    sessionId = session.session_id;
+  } else {
+    sessionId = req.get('authorization');
+  }
+
   if (!sessionId) {
     res.status(403).send({message: "Unathorized Access."});
     return;
@@ -77,15 +84,15 @@ exports.userSessionMiddleware = function(req, res, next) {
   client.hgetall(sessionId, function(err, value) {
     if (err) {
       res.status(500).send(err);
-      // return;
+      return;
     }
 
     if (!value) {
       res.status(403).send({message: "Unathorized Access."});
-      // return;
+      return;
     }
 
-    if (value.keepLogedIn) {
+    if (value.hasOwnProperty('keepLogedIn') && value.keepLogedIn) {
       client.PERSIST(uuid);
     }
 
