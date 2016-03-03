@@ -6,7 +6,7 @@ module.exports = function(sqlize, DataTypes) {
 
   // Define the user.
   let User = sqlize.define('user', {
-     username: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
       field: 'username',
@@ -66,8 +66,7 @@ module.exports = function(sqlize, DataTypes) {
         User.hasMany(models.task, {as: 'tasks'});
       }
     }
-  }
-);
+  });
 
   // Return the user.
   return User;

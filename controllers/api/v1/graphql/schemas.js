@@ -1,19 +1,20 @@
 "use strict";
 
-const graphql = require('graphql');
-const moment = require('moment');
+/**
+ * The Datamodel schemas.
+ */
+import {
+  GraphQLBoolean,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLNonNull,
+  GraphQLObjectType,
+  GraphQLString
+} from 'graphql';
+import moment from 'moment';
 
-// The data types used.
-const GraphQLBoolean = graphql.GraphQLBoolean;
-const GraphQLInt = graphql.GraphQLInt;
-const GraphQLNonNull = graphql.GraphQLNonNull;
-const GraphQLObjectType = graphql.GraphQLObjectType;
-const GraphQLString = graphql.GraphQLString;
-const GraphQLList = graphql.GraphQLList;
 
-
-
-let Task = new GraphQLObjectType({
+export const Task = new GraphQLObjectType({
   name: 'Task',
   description: 'This represents a Task',
   fields() {
@@ -88,7 +89,7 @@ let Task = new GraphQLObjectType({
   }
 });
 
-let User = new GraphQLObjectType({
+export const User = new GraphQLObjectType({
   name: 'User',
   description: 'This represents a User',
   fields() {
@@ -121,5 +122,3 @@ let User = new GraphQLObjectType({
   }
 });
 
-exports.Task = Task;
-exports.User = User;

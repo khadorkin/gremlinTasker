@@ -14,7 +14,7 @@ const Uuid = require('uuid');
  * @param {String} uuid - A session key if you want to update a session.
  * @return {String} uuid - The session key.
  */
-exports.saveUserSession = function(user, keepLogedIn, uuid) {
+export function saveUserSession(user, keepLogedIn, uuid) {
   const client = getClient();
 
   let session = {
@@ -47,7 +47,7 @@ exports.saveUserSession = function(user, keepLogedIn, uuid) {
  * @param {String} uuid
  * @param {AuthService-DeleteSessionCB} cb
  */
-exports.deleteUserSession = function(uuid, cb) {
+export function deleteUserSession(uuid, cb) {
   const client = getClient();
   client.delete(uuid, (err, value) => {
     if (err) {
@@ -65,7 +65,7 @@ exports.deleteUserSession = function(uuid, cb) {
  * @param {Response} res
  * @param function next
  */
-exports.userSessionMiddleware = function(req, res, next) {
+export function userSessionMiddleware(req, res, next) {
   let sessionId = {};
 
   if (req.cookies.hasOwnProperty('session')) {

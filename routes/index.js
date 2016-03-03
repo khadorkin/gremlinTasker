@@ -4,9 +4,10 @@ import express from 'express';
 
 const router = express.Router();
 
+export default router;
+
 /* GET home page. */
 router.get('/', (req, res, next) => {
   res.render('index', { title: 'Gremlin Tasker' });
 });
 
-module.exports = router;

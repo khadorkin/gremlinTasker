@@ -28,7 +28,7 @@ function baseApi() {
  *
  * @return {Boolean}
  */
-exports.isAuthenticated = function() {
+export function isAuthenticated() {
   return session.hasOwnProperty('session_id');
 }
 
@@ -45,7 +45,7 @@ exports.isAuthenticated = function() {
  * @param {String} uuid
  * @param {ApiCallBack} callBack
  */
-exports.login = function(loginData, callBack) {
+export function login(loginData, callBack) {
   baseApi().post('users/login', loginData)
     .then( (response) => {
       Cookie.set('session', response.data);
@@ -57,7 +57,7 @@ exports.login = function(loginData, callBack) {
     });
 };
 
-exports.register = function(registerData, callBack) {
+export function register(registerData, callBack) {
   baseApi().post('users/register', registerData)
     .then( (response) => {
       callBack(null, response);
@@ -67,7 +67,7 @@ exports.register = function(registerData, callBack) {
     });
 };
 
-exports.graphiQLFetcher = function(graphQLParams) {
+export function graphiQLFetcher(graphQLParams) {
   return baseApi().post('graphql', graphQLParams)
     .then( (response) => {
       return response.data;

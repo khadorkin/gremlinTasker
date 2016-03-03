@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
-const ApiService = require('./middleware/apiService.jsx');
+import ApiService from './middleware/apiService.jsx';
 
 // Components
-const App = require('./components/app.jsx');
-const Register = require('./components/register.jsx');
-const Login = require('./components/login.jsx');
+import App from './components/app.jsx';
+import Register from './components/register.jsx';
+import Login from'./components/login.jsx';
 
 // Build out so that the ApiService can be passed around.
 const RegisterWrapper = React.createClass({
@@ -24,12 +24,6 @@ const LoginWrapper = React.createClass({
 const AppWrapper = React.createClass({
   render() {
     return <App {...this.props} apiService={ApiService} />;
-  }
-});
-
-const GraphiQLWrapper = React.createClass({
-  render() {
-    return <GraphiQL fetcher={ApiService.graphiQLFetcher} />;
   }
 });
 

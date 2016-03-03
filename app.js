@@ -6,24 +6,22 @@ GLOBAL.config = require('./config/config.json')[env];
 
 import GraphHTTP from 'express-graphql';
 
-const express = require('express');
-const path = require('path');
-const favicon = require('serve-favicon');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const AuthService = require('./services/security/authService');
+import express from 'express';
+import path from 'path';
+import favicon from 'serve-favicon';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import helmet from 'helmet';
 
 // Routes
-const routes = require('./routes/index');
-const users = require('./routes/users');
-const apiV1Users = require('./routes/api/v1/users');
-const apiV1Graphql = require('./routes/api/v1/graphql');
+import routes from './routes/index';
+import apiV1Users from './routes/api/v1/users';
+import apiV1Graphql from './routes/api/v1/graphql';
 
 const app = express();
 
 // Security Items
-const helmet = require('helmet');
 app.use(helmet.hidePoweredBy({setTo: 'A Toaster'}));
 
 // view engine setup
@@ -40,20 +38,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Main webpage routes.
 app.use('/', routes);
-app.use('/users', users);
 
 // Api Routes.
 // V1
-app.use('/api/v1/users', apiV1Users);
-app.use('/api/v1/graphql',
-  AuthService.userSessionMiddleware,
-  GraphHTTP((req) => ({
-    schema: apiV1Graphql,
-    rootValue: { session: req.session },
-    pretty: true,
-    graphiql: true
-  })
-)); // The graphql.
+app.use(apiV1Users);
+app.use(apiV1Graphql);
 
 
 // catch 404 and forward to error handler

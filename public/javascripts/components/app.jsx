@@ -4,10 +4,10 @@
 
 import React from 'react';
 import {render} from 'react-dom';
-const Immutable = require('immutable');
-const SideNav = require('./sideNav.jsx');
+import Immutable from 'immutable';
+import SideNav from './sideNav.jsx';
 
-module.exports = React.createClass({
+export default React.createClass({
   buildState(props) {
     // Update the state.
     let state = Immutable.Map(props).toObject();

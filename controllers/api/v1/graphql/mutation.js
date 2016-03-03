@@ -1,21 +1,21 @@
 "use strict";
 
-const graphql = require('graphql');
-const Db = require('./../../../../models');
-const Schemas = require('./schemas');
-
-// The data types used.
-const GraphQLBoolean = graphql.GraphQLBoolean;
-const GraphQLInt = graphql.GraphQLInt;
-const GraphQLNonNull = graphql.GraphQLNonNull;
-const GraphQLObjectType = graphql.GraphQLObjectType;
-const GraphQLString = graphql.GraphQLString;
-
+import {
+  GraphQLBoolean,
+  GraphQLInt,
+  GraphQLNonNull,
+  GraphQLObjectType,
+  GraphQLString
+} from 'graphql';
+import Db from './../../../../models';
+import { Task } from './schemas';
 let fields = {};
+
+export default fields;
 
 // Create and add a task for the user.
 fields.addTask = {
-  type: Schemas.Task,
+  type: Task,
   args: {
     name: {
       type: new GraphQLNonNull(GraphQLString)
@@ -44,5 +44,3 @@ fields.addTask = {
     return Db.task.create(args);
   }
 };
-
-module.exports = fields;

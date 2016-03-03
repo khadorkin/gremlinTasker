@@ -1,11 +1,8 @@
 'use strict';
 
-const QueryFields = require('./query');
-const MutationFields = require('./mutation');
-const graphql = require('graphql');
-
-const GraphQLObjectType = graphql.GraphQLObjectType;
-const GraphQLSchema = graphql.GraphQLSchema;
+import QueryFields from './query';
+import MutationFields from './mutation';
+import {GraphQLObjectType, GraphQLSchema} from 'graphql';
 
 /**
  * The main query.
@@ -29,7 +26,7 @@ const Mutation = new GraphQLObjectType({
   }
 });
 
-module.exports = new GraphQLSchema({
+export default new GraphQLSchema({
   query: Query,
   mutation: Mutation
 });

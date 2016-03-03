@@ -42,7 +42,7 @@ const LoggedOutNav = React.createClass({
   }
 });
 
-module.exports = React.createClass({
+export default React.createClass({
   buildState(props) {
     // Update the state.
     let state = Immutable.Map(props).toObject();

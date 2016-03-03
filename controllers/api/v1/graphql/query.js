@@ -1,21 +1,24 @@
 "use strict";
 
-const graphql = require('graphql');
-const Db = require('./../../../../models');
-const Schemas = require('./schemas');
+/**
+ * This will define the Query part of the graphql.
+ */
+import {
+  GraphQLBoolean,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLNonNull,
+  GraphQLString
+} from 'graphql';
+import Db from './../../../../models';
+import { User, Task } from './schemas';
+const fields = {};
 
-// The data types used.
-const GraphQLBoolean = graphql.GraphQLBoolean;
-const GraphQLInt = graphql.GraphQLInt;
-const GraphQLNonNull = graphql.GraphQLNonNull;
-const GraphQLString = graphql.GraphQLString;
-const GraphQLList = graphql.GraphQLList;
-
-let fields = {};
+export default fields;
 
 // Build out the user query.
 fields.user = {
-  type: Schemas.User,
+  type: User,
   resolve (root, args, { rootValue: { session } }) {
     return Db.user.findById(session.user.id);
   }
@@ -23,7 +26,7 @@ fields.user = {
 
 // Build out the task query.
 fields.task = {
-  type: Schemas.Task,
+  type: Task,
   args: {
     id: {
       type: GraphQLInt
@@ -37,7 +40,7 @@ fields.task = {
 
 // Build out the Tasks query.
 fields.tasks = {
-  type: new GraphQLList(Schemas.Task),
+  type: new GraphQLList(Task),
   args: {
     id: {
       type: GraphQLInt
@@ -76,4 +79,3 @@ fields.tasks = {
   }
 };
 
-module.exports = fields;

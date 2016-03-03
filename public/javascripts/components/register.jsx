@@ -86,7 +86,7 @@ const Form = React.createClass({
   }
 });
 
-module.exports = React.createClass({
+export default React.createClass({
   componentDidMount() {
     // Bind the ApiService.
     ApiService = this.props.apiService;
