@@ -6,7 +6,7 @@ module.exports = {
       'tasks',
       {
         id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINTEGER,
           primaryKey: true,
           autoIncrement: true
         },
@@ -17,7 +17,7 @@ module.exports = {
           type: Sequelize.DATE
         },
         userId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINT,
           allowNull: false,
           references: {
             model: 'users',
@@ -30,7 +30,7 @@ module.exports = {
           allowNull: false
         },
         description: {
-          type: Sequelize.STRING
+          type: Sequelize.TEXT
         },
         completedAt: {
           type: Sequelize.DATE
@@ -40,11 +40,11 @@ module.exports = {
           defaultValue: false
         },
         priority: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINT,
           defaultValue: 0
         },
         difficulty: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINT,
           defaultValue: 0
         },
         dueDate: {

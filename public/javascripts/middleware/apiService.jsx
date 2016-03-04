@@ -23,6 +23,12 @@ function baseApi() {
   return Axios.create(apiConfig);
 }
 
+export default {
+  isAuthenticated: isAuthenticated,
+  login: login,
+  register: register,
+  graphiQLFetcher: graphiQLFetcher
+};
 /**
  * Check whether or not the user has a session_id.
  *

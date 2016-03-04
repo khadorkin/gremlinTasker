@@ -7,7 +7,7 @@ module.exports = function(sqlize, DataTypes) {
   // Define the task.
   let Task = sqlize.define('task', {
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       field: 'userId',
       validate: {
@@ -24,8 +24,8 @@ module.exports = function(sqlize, DataTypes) {
       }
     },
     description: {
-      type: DataTypes.STRING,
-      field: 'password',
+      type: DataTypes.TEXT,
+      field: 'description',
       allowNull: true,
       validate: {
         notEmpty: true
@@ -42,17 +42,17 @@ module.exports = function(sqlize, DataTypes) {
       allowNull: true,
       set(val) {
         if (val) {
-          this.setDataValue('completedAt', moment.utc.toDate());
+          this.setDataValue('completedAt', moment.utc().toDate());
         }
       }
     },
     priority: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       field: 'priority',
       allowNull: true
     },
     difficulty: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       field: 'difficulty',
       allowNull: true
     },
@@ -77,8 +77,7 @@ module.exports = function(sqlize, DataTypes) {
         Task.belongsTo(models.user);
       }
     }
-  }
-);
+  });
 
   // Return the task.
   return Task;

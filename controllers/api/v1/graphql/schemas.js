@@ -115,7 +115,7 @@ export const User = new GraphQLObjectType({
       tasks: {
         type: new GraphQLList(Task),
         resolve (user) {
-          return user.tasks;
+          return user.getTasks();
         }
       }
     };
