@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "build": "./node_modules/.bin/sequelize db:migrate"
+    "build": "npm install && grunt"
   },
   "dependencies": {
     "axios": "^0.9.1",
@@ -38,10 +38,16 @@
     "sequelize": "^3.19.2",
     "sequelize-cli": "^2.3.1",
     "serve-favicon": "~2.3.0",
-    "uuid": "^2.0.1",
-    "webpack": "^1.12.14"
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
-    "typescript": "^1.9.0-dev.20160225"
+    "git-changelog": "^0.1.8",
+    "grunt": "^0.4.5",
+    "grunt-changelog": "^0.3.1",
+    "grunt-shell": "^1.2.1",
+    "grunt-webpack": "^1.0.11",
+    "typescript": "^1.9.0-dev.20160225",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
   }
 }
