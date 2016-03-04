@@ -25,6 +25,11 @@ Vagrant.configure(2) do |config|
     sudo apt-get update
     sudo apt-get install -y nodejs
 
+    # Some global NPM modules
+    npm install -g webpack
+    npm install -g sequelize
+    npm install -g grunt-cli
+
     # Postgresql
     sudo apt-get install -y postgresql postgresql-contrib postgresql-client
     sudo -u postgres createdb gremlin_tasker
