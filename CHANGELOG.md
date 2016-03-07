@@ -1,6 +1,6 @@
 __Gremlin Tasker changelog__
 
-#   (2016-03-04)
+#   (2016-03-07)
 
 
 
@@ -24,6 +24,7 @@ __Gremlin Tasker changelog__
 
 ## Refactor
 
+- Cleaned up some redundent code.
 - Cleaned up some uneeded code
 
 
