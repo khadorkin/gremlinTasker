@@ -4,80 +4,34 @@
 
 import React from 'react';
 import { Link } from 'react-router';
-const Immutable = require('immutable');
+import ApiService from './../middleware/apiService.jsx';
 
-const baseRoutes = [
-  { to: '/login', label: 'Login' },
-  { to: '/register', label: 'Register' }
-];
-
-const loggedInRoutes = [
-
-];
-
-const LoggedInNav = React.createClass({
-  render() {
-    let Links = this.props.routes.map(route => (
-      <Link className="mdl-navigation__link" to={route.to}>{route.label}</Link>
-    ));
+export default React.createClass({
+  loggedOutNav() {
     return (
       <nav className="mdl-navigation">
-        {Links}
+        <Link className="mdl-navigation__link" to="/login">Login</Link>
+        <Link className="mdl-navigation__link" to="/register">Register</Link>
+      </nav>
+    );
+  },
+
+  loggedInNav() {
+    return (
+      <nav className="mdl-navigation">
         <a className="mdl-navigation__link" href="/api/v1/graphql">GraphQL Explorer</a>
       </nav>
     );
-  }
-});
-
-const LoggedOutNav = React.createClass({
-  render() {
-    let Links = this.props.routes.map(route => (
-      <Link className="mdl-navigation__link" to={route.to}>{route.label}</Link>
-    ));
-    return (
-      <nav className="mdl-navigation">
-        {Links}
-      </nav>
-    );
-  }
-});
-
-export default React.createClass({
-  buildState(props) {
-    // Update the state.
-    let state = Immutable.Map(props).toObject();
-
-    // Update the routes
-    state.routes = baseRoutes;
-    if (state.apiService.isAuthenticated()) {
-      state.routes = loggedInRoutes;
-    }
-    this.setState(state);
-  },
-
-  getInitialState() {
-    return {
-      routes: baseRoutes
-    };
   },
 
   componentDidUpdate() {
-    this.buildState(this.state);
-  },
-
-  componentDidMount() {
-    this.buildState(this.props);
+    this.forceUpdate();
   },
 
   render() {
-    // Build out the links dynamicly.
-    let Nav = <LoggedOutNav {...this.state} />;
-    if (this.state.hasOwnProperty('apiService')
-      && this.state.apiService.isAuthenticated()
-    ) {
-      Nav = <LoggedInNav {...this.state} />;
+    if (ApiService.isAuthenticated()) {
+      return this.loggedInNav();
     }
-
-    return Nav;
+    return this.loggedOutNav();
   }
 });

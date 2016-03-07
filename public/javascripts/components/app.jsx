@@ -3,32 +3,9 @@
  */
 
 import React from 'react';
-import {render} from 'react-dom';
-import Immutable from 'immutable';
 import SideNav from './sideNav.jsx';
 
 export default React.createClass({
-  buildState(props) {
-    // Update the state.
-    let state = Immutable.Map(props).toObject();
-    this.setState(state);
-    return state;
-  },
-
-  getInitialState() {
-    return this.buildState(this.props);
-  },
-
-  componentDidUpdate() {
-    // Update the state.
-    this.buildState(this.state);
-  },
-
-  componentDidMount() {
-    // update the state.
-    this.buildState(this.props);
-  },
-
   render() {
     return (
       <div className="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
@@ -56,7 +33,7 @@ export default React.createClass({
 
         <div className="mdl-layout__drawer" id="sideNav">
           <span className="mdl-layout-title">Germlin Tasker</span>
-          <SideNav {...this.state} />
+          <SideNav />
         </div>
 
         <main className="mdl-layout__content">

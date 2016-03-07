@@ -26,8 +26,7 @@ function baseApi() {
 export default {
   isAuthenticated: isAuthenticated,
   login: login,
-  register: register,
-  graphiQLFetcher: graphiQLFetcher
+  register: register
 };
 /**
  * Check whether or not the user has a session_id.
@@ -72,10 +71,3 @@ export function register(registerData, callBack) {
       callBack(reponse, null);
     });
 };
-
-export function graphiQLFetcher(graphQLParams) {
-  return baseApi().post('graphql', graphQLParams)
-    .then( (response) => {
-      return response.data;
-    });
-}

@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { hashHistory } from 'react-router';
+import ApiService from './../middleware/apiService.jsx';
 const LinkedStateMixin = require('react-addons-linked-state-mixin');
-
-let ApiService = {};
 
 const Form = React.createClass({
   mixins: [LinkedStateMixin],
+
   getInitialState() {
     return {
       username: "",
@@ -19,9 +19,8 @@ const Form = React.createClass({
 
     ApiService.login(this.state, (err, response) => {
       if (err) {
-        let state = this.state;
-        state.error = err.data.message;
-        this.setState(state);
+        console.log(err);
+        this.setState({err: err.data.message});
         return;
       }
       hashHistory.push('/');
@@ -75,8 +74,6 @@ const Form = React.createClass({
 
 export default React.createClass({
   componentDidMount() {
-    // Bind the API service.
-    ApiService = this.props.apiService;
 
     // This is needed because react-router + chrome prevents
     // the binding of onSubmit={this.handleSubmit}.
