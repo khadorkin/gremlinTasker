@@ -3,10 +3,10 @@
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.createTable(
-      'users',
+      'boards',
       {
         id: {
-          type: Sequelize.BIGINT,
+          type: Sequelize.BIGINTEGER,
           primaryKey: true,
           autoIncrement: true
         },
@@ -16,15 +16,7 @@ module.exports = {
         updatedAt: {
           type: Sequelize.DATE
         },
-        username: {
-          type: Sequelize.STRING,
-          allowNull: false
-        },
-        password: {
-          type: Sequelize.STRING,
-          allowNull: false
-        },
-        email: {
+        name: {
           type: Sequelize.STRING,
           allowNull: false
         }
@@ -33,6 +25,6 @@ module.exports = {
   },
 
   down: function (queryInterface) {
-    return queryInterface.dropTable('users');
+    return queryInterface.dropTable('boards');
   }
 };

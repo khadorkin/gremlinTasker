@@ -1,10 +1,4 @@
-"use strict";
-
-// Minimal Global settings, only should be the config, and the env.
-GLOBAL.env = process.env.NODE_ENV || 'development';
-GLOBAL.config = require('./config/config.json')[env];
-
-import GraphHTTP from 'express-graphql';
+'use strict';
 
 import express from 'express';
 import path from 'path';
@@ -63,6 +57,7 @@ if (app.get('env') === 'development') {
       message: err.message,
       error: err
     });
+    next();
   });
 }
 
@@ -74,6 +69,7 @@ app.use((err, req, res, next) => {
     message: err.message,
     error: {}
   });
+  next();
 });
 
 

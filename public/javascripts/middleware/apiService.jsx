@@ -1,13 +1,16 @@
+'use strict';
+
 // Channel all api requests here.
-const Axios = require('axios');
-const Cookie = require('js-cookie');
+import _ from 'lodash';
+import { hashHistory } from 'react-router';
+import Axios from 'axios';
+import Cookie from 'js-cookie';
 
 let session = {};
 
 if (Cookie.get('session')) {
   session = Cookie.getJSON('session');
 }
-
 
 let apiConfig = {
   baseURL: '/api/v1/',
@@ -20,14 +23,31 @@ function baseApi() {
     };
   }
 
-  return Axios.create(apiConfig);
+  const axios = Axios.create(apiConfig);
+
+  // If there is a 401 error, return the user to the login screen.
+  axios.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error.status == 401) {
+        Cookie.remove('session');
+        hashHistory.push('/login');
+      }
+      return Promise.reject(error);
+    }
+  );
+  return axios;
 }
 
 export default {
   isAuthenticated: isAuthenticated,
   login: login,
-  register: register
+  register: register,
+  graphQL: graphQL
 };
+
 /**
  * Check whether or not the user has a session_id.
  *
@@ -45,7 +65,7 @@ export function isAuthenticated() {
  */
 
 /**
- * This will delete a user Session.
+ * This will create a user Session after logging in the user.
  *
  * @param {String} uuid
  * @param {ApiCallBack} callBack
@@ -53,6 +73,7 @@ export function isAuthenticated() {
 export function login(loginData, callBack) {
   baseApi().post('users/login', loginData)
     .then( (response) => {
+      sessionStorage.setItem('session', JSON.stringify(response.data));
       Cookie.set('session', response.data);
       session = response.data;
       callBack(null, response);
@@ -62,6 +83,12 @@ export function login(loginData, callBack) {
     });
 };
 
+/**
+ * This will create a user.
+ *
+ * @param {String} uuid
+ * @param {ApiCallBack} callBack
+ */
 export function register(registerData, callBack) {
   baseApi().post('users/register', registerData)
     .then( (response) => {
@@ -69,5 +96,15 @@ export function register(registerData, callBack) {
     })
     .catch( (response) => {
       callBack(reponse, null);
+    });
+};
+
+export function graphQL(query, callBack) {
+  baseApi().post('graphql', {query: query})
+    .then( (response) => {
+      callBack(null, response.data);
+    })
+    .catch( (response) => {
+      callBack(response, null);
     });
 };

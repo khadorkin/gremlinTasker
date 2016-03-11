@@ -76,7 +76,7 @@ export function userSessionMiddleware(req, res, next) {
   }
 
   if (!sessionId) {
-    res.status(403).send({message: "Unathorized Access."});
+    res.status(401).send({message: "Unathorized Access."});
     return;
   }
 
@@ -88,7 +88,7 @@ export function userSessionMiddleware(req, res, next) {
     }
 
     if (!value) {
-      res.status(403).send({message: "Unathorized Access."});
+      res.status(401).send({message: "Unathorized Access."});
       return;
     }
 

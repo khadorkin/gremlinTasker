@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 import { saveUserSession, deleteUserSession } from './../../../services/security/authService';
 const db = require('./../../../models');
@@ -7,8 +7,9 @@ const User = db.user;
 /* Register a User */
 export function register(req, res, next) {
   User.create(req.body)
-  .then( (user) => {
+  .then( () => {
     res.status(201).send({message: 'success'});
+    next();
   })
   .catch( (errors) => {
     res.status(500).send(errors);
@@ -23,15 +24,15 @@ export function login(req, res, next) {
   .then( (user) => {
     // Check to see if a user was found.
     if (!user) {
-      res.status(403).send({message: "User not found."});
+      res.status(403).send({message: 'User not found.'});
       return;
     }
+
     user.checkPassword(req.body.password, (err, isMatch) => {
 
       // If error report back.
       if (err) {
-        console.log(error);
-        res.status(500).send({message: error.message});
+        res.status(500).send({message: err.message});
         return;
       }
 
@@ -43,13 +44,14 @@ export function login(req, res, next) {
           req.body.keepLogedIn
         );
         res.send({session_id: uuid});
+        // next();
         return;
       }
 
       // Report if the password is a failure.
       if (!isMatch) {
         res.status(403)
-          .send({password: "Incorrect Password."});
+          .send({password: 'Incorrect Password.'});
         return;
       }
 
@@ -57,7 +59,6 @@ export function login(req, res, next) {
   })
   .catch( (error) => {
     if (error) {
-      console.log(error);
       res.status(500).send({message: error.message});
     }
   });
@@ -67,12 +68,13 @@ export function login(req, res, next) {
 export function logout(req, res, next) {
   deleteUserSession(
     req.get('authorization'),
-      (err) => {
+    (err) => {
       if (err) {
         res.status(500).send(err);
         return;
       }
       res.send({message: 'Success'});
+      next();
     }
   );
 }

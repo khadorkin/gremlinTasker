@@ -3,9 +3,5 @@
         "target": "ES6",
         "module": "commonjs",
         "allowJs": true
-    },
-    "files": [
-        "app.js",
-        "model.js"
-    ]
+    }
 }

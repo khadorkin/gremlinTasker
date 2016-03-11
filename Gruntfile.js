@@ -7,22 +7,22 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     shell: {
-        migrate: {
-            command: './node_modules/.bin/sequelize db:migrate'
-        }
+      migrate: {
+        command: './node_modules/.bin/sequelize db:migrate'
+      }
     },
     webpack: {
       mainApp: {
-        entry: "./public/javascripts/main.jsx",
+        entry: './public/javascripts/main.jsx',
         output: {
-          path: "public/dist",
-          filename: "app.min.js"
+          path: 'public/dist',
+          filename: 'app.min.js'
         },
         module: {
           loaders: [
             {
               test: /\.jsx/,
-              loader: "babel-loader",
+              loader: 'babel-loader',
               query: {
                 presets: ['es2015', 'react']
               }
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
       }
     },
     git_changelog: {
-      minimal: {
+      extended: {
         options: {
           file: './CHANGELOG.md',
           repo_url: 'https://github.com/mattdharmon/gremlinTasker',
@@ -43,6 +43,12 @@ module.exports = function(grunt) {
           tag: false
         }
       }
+    },
+    watch: {
+      jsx: {
+        files: ['public/javascripts/**/*.jsx'],
+        tasks: ['webpack']
+      }
     }
   });
 
@@ -50,6 +56,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-webpack');
   grunt.loadNpmTasks('git-changelog');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task(s).
   grunt.registerTask('default', ['webpack', 'shell:migrate']);

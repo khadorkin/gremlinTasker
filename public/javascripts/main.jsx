@@ -1,51 +1,34 @@
+'use strict';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
-import ApiService from './middleware/apiService.jsx';
 
 // Components
 import App from './components/app.jsx';
-import Register from './components/register.jsx';
-import Login from'./components/login.jsx';
-
-// Build out so that the ApiService can be passed around.
-const RegisterWrapper = React.createClass({
-  render() {
-    return <Register apiService={ApiService} />;
-  }
-});
-
-const LoginWrapper = React.createClass({
-  render() {
-    return <Login apiService={ApiService} />;
-  }
-});
-
-const AppWrapper = React.createClass({
-  render() {
-    return <App {...this.props} apiService={ApiService} />;
-  }
-});
-
-// TODO: Turn this into a list of tasks.
-const Home = React.createClass({
-  render() {
-    return <h1>Yay!</h1>;
-  }
-});
+import Register from './components/register/register.jsx';
+import Login from './components/login/login.jsx';
+import Tasks from './components/tasks/tasks.jsx';
+import TaskList from './components/tasks/taskList.jsx';
+import Task from './components/tasks/task.jsx';
+import Home from './components/home.jsx';
+import SideNav from './components/layout/sideNav.jsx';
+import Header from './components/layout/header.jsx';
 
 // The router.
-const routes = {
-  path: '/',
-  component: AppWrapper,
-  indexRoute: { component: Home },
-  childRoutes: [
-    { path: 'register', component: RegisterWrapper },
-    { path: 'login', component: LoginWrapper }
-  ]
-};
-
 ReactDOM.render(
-  <Router history={hashHistory} routes={routes} />,
+  (
+    <Router history={hashHistory} >
+      <Route path="/"  component={App}>
+        <IndexRoute components={{ main: Home, sideNav: SideNav, header: Header }} />
+        <Route path="register" components={{ main: Register, sideNav: SideNav, header: Header }} />
+        <Route path="login" components={{ main: Login, sideNav: SideNav, header: Header }} />
+        <Route path="tasks" components={{ main: Tasks, sideNav: SideNav, header: Header }}>
+          <IndexRoute component={TaskList} />
+          <Route path=":id" component={Task} />
+        </Route>
+      </Route>
+    </Router>
+  ),
   document.getElementById('appContainer')
 );

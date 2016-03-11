@@ -3,7 +3,7 @@
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.createTable(
-      'tasks',
+      'comments',
       {
         id: {
           type: Sequelize.BIGINTEGER,
@@ -25,36 +25,24 @@ module.exports = {
           },
           onDelete: 'CASCADE'
         },
-        name: {
-          type: Sequelize.STRING,
+        taskId: {
+          type: Sequelize.BIGINT,
+          allowNull: false,
+          references: {
+            model: 'tasks',
+            key: 'id'
+          },
+          onDelete: 'CASCADE'
+        },
+        content: {
+          type: Sequelize.TEXT,
           allowNull: false
-        },
-        description: {
-          type: Sequelize.TEXT
-        },
-        completedAt: {
-          type: Sequelize.DATE
-        },
-        isComplete: {
-          type: Sequelize.BOOLEAN,
-          defaultValue: false
-        },
-        priority: {
-          type: Sequelize.BIGINT,
-          defaultValue: 0
-        },
-        difficulty: {
-          type: Sequelize.BIGINT,
-          defaultValue: 0
-        },
-        dueDate: {
-          type: Sequelize.DATE
         }
       }
     );
   },
 
   down: function (queryInterface) {
-    return queryInterface.dropTable('tasks');
+    return queryInterface.dropTable('comments');
   }
 };

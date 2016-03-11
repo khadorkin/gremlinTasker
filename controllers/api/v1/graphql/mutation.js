@@ -1,10 +1,9 @@
-"use strict";
+'use strict';
 
 import {
   GraphQLBoolean,
   GraphQLInt,
   GraphQLNonNull,
-  GraphQLObjectType,
   GraphQLString
 } from 'graphql';
 import Db from './../../../../models';

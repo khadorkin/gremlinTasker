@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
-const bcrypt = require('bcryptjs');
+import bcrypt from 'bcryptjs';
 
-module.exports = function(sqlize, DataTypes) {
+export default function(sqlize, DataTypes) {
 
   // Define the user.
   let User = sqlize.define('user', {
@@ -36,8 +36,7 @@ module.exports = function(sqlize, DataTypes) {
         this.setDataValue('password', bcrypt.hashSync(val));
       }
     }
-  },
-  {
+  }, {
     indexes: [
       {
         unique: true,
@@ -46,7 +45,7 @@ module.exports = function(sqlize, DataTypes) {
       {
         unique: true,
         fields: ['email']
-      },
+      }
     ],
     instanceMethods: {
 
@@ -64,10 +63,12 @@ module.exports = function(sqlize, DataTypes) {
       // Define the relationships
       associate(models) {
         User.hasMany(models.task, {as: 'tasks'});
+        User.hasMany(models.comment, {as: 'comments'});
+        User.belongsToMany(models.board, {as: 'boards', through: 'userBoards'});
       }
     }
   });
 
   // Return the user.
   return User;
-};
+}
