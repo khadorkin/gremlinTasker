@@ -91,6 +91,12 @@ export const Task = new GraphQLObjectType({
           return task.userId;
         }
       },
+      boardId: {
+        type: GraphQLInt,
+        resolve(task) {
+          return task.boardId;
+        }
+      },
       user: {
         type: User,
         resolve(task) {
@@ -102,8 +108,9 @@ export const Task = new GraphQLObjectType({
         type: new GraphQLList(Comment),
         args: commentsArgs,
         resolve(task, args) {
-          const query = buildQueryArgs(Db.task, args);
-          return task.getComments(query);
+          args.taskId = task.id;
+          const query = buildQueryArgs(Db.comment, args);
+          return Db.comment.findAll(query);
         }
       }
     };
@@ -153,6 +160,7 @@ export const MainUser = new GraphQLObjectType({
         type: new GraphQLList(Board),
         args: boardsArgs,
         resolve(user, args) {
+          // args.include = [{model: Db.task}];
           const query = buildQueryArgs(Db.board, args);
           return user.getBoards(query);
         }
@@ -226,7 +234,7 @@ export const Comment = new GraphQLObjectType({
       user: {
         type: User,
         resolve(comment) {
-          return comment.getUser();
+          return Db.user.findById(comment.userId);
         }
       },
       task: {
@@ -246,8 +254,8 @@ export const Board = new GraphQLObjectType({
     return {
       id: {
         type: GraphQLInt,
-        resolve (comment) {
-          return comment.id;
+        resolve (board) {
+          return board.id;
         }
       },
       createdAt: {
@@ -281,8 +289,8 @@ export const Board = new GraphQLObjectType({
         args: tasksArgs,
         resolve(board, args) {
           args.boardId = board.id;
-          const query = buildQueryArgs(Db.board, args);
-          return board.getTasks(query);
+          const query = buildQueryArgs(Db.task, args);
+          return Db.task.findAll(query);
         }
       }
     };

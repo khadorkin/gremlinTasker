@@ -14,7 +14,7 @@ export const users = {
     type: GraphQLInt
   },
   username: {
-    typs: GraphQLString
+    type: GraphQLString
   }
 };
 

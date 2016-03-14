@@ -1,10 +1,11 @@
-/**
- * This is the main app container that displays the webpage itself.
- */
+'use strict';
 
 import React from 'react';
 
-export default React.createClass({
+/**
+ * This is the main app container that displays the webpage itself.
+ */
+export default class App extends React.Component {
   render() {
     return (
       <div>
@@ -22,4 +23,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

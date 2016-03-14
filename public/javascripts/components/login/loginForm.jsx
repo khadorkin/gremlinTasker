@@ -2,23 +2,30 @@
 
 import React from 'react';
 import { hashHistory } from 'react-router';
-import LinkedStateMixin from 'react-addons-linked-state-mixin';
-import { login } from './../../middleware/apiService.jsx';
+import ApiService from './../../middleware/apiService.jsx';
 
-export default React.createClass({
-  mixins: [LinkedStateMixin],
+/**
+ * This is the Login Form itself.
+ */
+export default class LoginForm extends React.Component {
 
-  getInitialState() {
-    return {
+  constructor(props) {
+    super(props);
+    this.state = {
       username: '',
       password: ''
     };
-  },
+
+    this.ApiService = new ApiService();
+
+    // Bind the local instance to the methods.
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
 
   handleSubmit(event) {
     event.preventDefault();
-
-    login(this.state, (err) => {
+    this.ApiService.login(this.state, (err) => {
       // Handle the error if any.
       if (err != null) {
         if (err.data) {
@@ -30,7 +37,15 @@ export default React.createClass({
       // Go to tasks when logged in.
       hashHistory.push('/tasks');
     });
-  },
+  }
+
+  handleChange(fieldName) {
+    return (event) => {
+      let state = {};
+      state[fieldName] = event.target.value;
+      this.setState(state);
+    };
+  }
 
   render() {
     return (
@@ -45,8 +60,10 @@ export default React.createClass({
         <div className="row mdl-textfield mdl-js-textfield mdl-cell--12-col">
           <input
               className="mdl-textfield__input"
-              type="text" id="usernameField"
-              valueLink={this.linkState('username')}
+              type="text"
+              id="usernameField"
+              value={this.state.username}
+              onChange={this.handleChange('username')}
           />
           <label
               className="mdl-textfield__label"
@@ -60,7 +77,8 @@ export default React.createClass({
               className="mdl-textfield__input"
               type="password"
               id="passwordField"
-              valueLink={this.linkState('password')}
+              value={this.state.password}
+              onChange={this.handleChange('password')}
           />
           <label
               className="mdl-textfield__label"
@@ -80,4 +98,4 @@ export default React.createClass({
       </form>
     );
   }
-});
+}

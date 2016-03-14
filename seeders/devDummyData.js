@@ -8,11 +8,14 @@ const Chance = require('chance');
 const chance = new Chance();
 
 function createComments(user, task) {
-  models.comment.create({
-    content: chance.paragraph(),
-    userId: user.id,
-    taskId: task.id
-  });
+  const times = chance.integer({min: 3, max: 25});
+  for (var i = 0; i < times; i++) {
+    models.comment.create({
+      content: chance.paragraph(),
+      userId: user.id,
+      taskId: task.id
+    });
+  }
 }
 
 function createTasks(numberOfTasks, user, board) {
@@ -36,11 +39,12 @@ function createTasks(numberOfTasks, user, board) {
 function createBoards(user) {
   for (var i = 0; i < 10; i++) {
     models.board.create({
-      name: chance.sentence(),
-      userId: user.id
+      name: chance.sentence()
     })
     .then( (board) => {
-      createTasks(20, user, board);
+      user.addBoard(board);
+      const taskCount = chance.integer({min: 3, max: 30});
+      createTasks(taskCount, user, board);
     });
   }
 }

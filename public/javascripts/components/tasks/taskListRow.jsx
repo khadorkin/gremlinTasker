@@ -4,7 +4,14 @@ import React from 'react';
 import { hashHistory } from 'react-router';
 import { formatDisplayDate } from './../../lib/utils.jsx';
 
-export default React.createClass({
+export default class TaskListRow extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    // Bind this context to custom methods.
+    this.viewTask = this.viewTask.bind(this);
+  }
 
   /**
    * Handles the onClick event to display the
@@ -12,7 +19,7 @@ export default React.createClass({
    */
   viewTask() {
     hashHistory.push(`tasks/${this.props.id}`);
-  },
+  }
 
   render() {
     return(
@@ -32,4 +39,4 @@ export default React.createClass({
       </tr>
     );
   }
-});
+}

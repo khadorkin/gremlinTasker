@@ -1,8 +1,14 @@
+'user strict';
+
 import React from 'react';
 import { render } from 'react-dom';
 import RegisterForm from './registerForm.jsx';
 
-export default React.createClass({
+/**
+ * This is the view container for the Register section.
+ */
+export default class Register extends React.Component {
+
   componentDidMount() {
     // This is needed because react-router + chrome prevents
     // the binding of onSubmit={this.handleSubmit}.
@@ -16,7 +22,7 @@ export default React.createClass({
       <h3>Register</h3>,
       document.getElementById('pageTitle')
     );
-  },
+  }
 
   render() {
 
@@ -27,4 +33,4 @@ export default React.createClass({
       />
     );
   }
-});
+}

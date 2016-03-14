@@ -2,12 +2,15 @@
 
 import React from 'react';
 
-export default React.createClass({
+/**
+ * This is the Tasks View Container.
+ */
+export default class Tasks extends React.Component {
   render() {
     return(
-      <div className="app-content content mdl-color-text--grey-800" id="taskView">
+      <div className="mdl-grid" id="tasksView">
         {this.props.children}
       </div>
     );
   }
-});
+}

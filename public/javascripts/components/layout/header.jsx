@@ -1,6 +1,11 @@
+'use strict';
+
 import React from 'react';
 
-export default React.createClass({
+/**
+ * This is the main header section of the web application.
+ */
+export default class Header extends React.Component {
   render() {
     return (
       <header className="mdl-layout__header">
@@ -29,4 +34,4 @@ export default React.createClass({
       </header>
     );
   }
-});
+}

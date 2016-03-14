@@ -4,7 +4,15 @@ import React from 'react';
 import { render } from 'react-dom';
 import LoginForm from './loginForm.jsx';
 
-export default React.createClass({
+/**
+ * This is the main view container for the login page.
+ */
+export default class Login extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
   componentDidMount() {
 
     // This is needed because react-router + chrome prevents
@@ -19,7 +27,7 @@ export default React.createClass({
       <h3>Login</h3>,
       document.getElementById('pageTitle')
     );
-  },
+  }
 
   render() {
     return (
@@ -29,4 +37,4 @@ export default React.createClass({
       />
     );
   }
-});
+}

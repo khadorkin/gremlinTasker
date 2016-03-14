@@ -2,23 +2,24 @@
 
 import React from 'react';
 import { hashHistory } from 'react-router';
-import LinkedStateMixin from 'react-addons-linked-state-mixin';
-import { register } from './../../middleware/apiService.jsx';
+import ApiService from './../../middleware/apiService.jsx';
 
-export default React.createClass({
-  mixins: [LinkedStateMixin],
+export default class RegisterForm extends React.Component {
 
-  getInitialState() {
-    return {
+  constructor(props) {
+    super(props);
+    this.state = {
       username: '',
       email: '',
       password: ''
     };
-  },
+
+    this.ApiService = new ApiService();
+  }
 
   handleSubmit(event) {
     event.preventDefault();
-    register(this.state, (err) => {
+    this.ApiService.register(this.state, (err) => {
       if (err) {
         let state = this.state;
         state.error = err.data.message;
@@ -27,7 +28,15 @@ export default React.createClass({
       }
       hashHistory.push('login');
     });
-  },
+  }
+
+  handleChange(fieldName) {
+    return (event) => {
+      let state = {};
+      state[fieldName] = event.target.value;
+      this.setState(state);
+    };
+  }
 
   render() {
     return (
@@ -43,7 +52,8 @@ export default React.createClass({
           <input
               className="mdl-textfield__input"
               type="text" id="usernameField"
-              valueLink={this.linkState('username')}
+              value={this.state.username}
+              onChange={this.handleChange('username')}
           />
           <label
               className="mdl-textfield__label"
@@ -57,7 +67,8 @@ export default React.createClass({
               className="mdl-textfield__input"
               type="text"
               id="emailField"
-              valueLink={this.linkState('email')}
+              value={this.state.email}
+              onChange={this.handleChange('email')}
           />
           <label
               className="mdl-textfield__label"
@@ -71,7 +82,8 @@ export default React.createClass({
               className="mdl-textfield__input"
               type="password"
               id="passwordField"
-              valueLink={this.linkState('password')}
+              value={this.state.password}
+              onChange={this.handleChange('password')}
           />
           <label
               className="mdl-textfield__label"
@@ -91,4 +103,4 @@ export default React.createClass({
       </form>
     );
   }
-});
+}

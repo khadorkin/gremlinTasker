@@ -6,8 +6,16 @@ This is my little nodejs playground todo application.
 Uses:
 
 - Express
+- GraphQL
 - Sequelize
+- ReactJS
 - Docker/Docker Compose
+- Vagrant
+
+Dev Info:
+
+- Username: Admin
+- Password: password
 
 Commands:
 
