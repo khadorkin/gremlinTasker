@@ -15,7 +15,7 @@ export default class App extends React.Component {
           {this.props.sideNav}
 
           <main className="mdl-layout__content">
-            <div className="app-container">
+            <div className="page-content">
               {this.props.main}
             </div>
           </main>

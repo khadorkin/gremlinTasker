@@ -103,20 +103,19 @@ export default class TaskList extends React.Component {
     const Tasks = this.state.tasks.map(this.buildTaskRow);
 
     return (
-      <div className="mdl-cell mdl-cell-12-col">
-        <table className="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
+        <table className="mdl-cell mdl-cell--12-col mdl-shadow--4dp mdl-data-table mdl-js-data-table">
           <thead className="mdl-color--blue-grey">
             <tr>
-              <th className="mdl-data-table__cell--non-numeric  mdl-color-text--white">
+              <th className="mdl-data-table__cell--non-numeric mdl-color-text--white">
                 Task
               </th>
-              <th className="mdl-data-table__cell--non-numeric  mdl-color-text--white">
+              <th className="mdl-data-table__cell--non-numeric mdl-color-text--white">
                 Due Date
               </th>
-              <th className="mdl-data-table__cell--non-numeric  mdl-color-text--white">
+              <th className="mdl-data-table__cell--non-numeric mdl-color-text--white">
                 Difficulty
               </th>
-              <th className="mdl-data-table__cell--non-numeric  mdl-color-text--white">
+              <th className="mdl-data-table__cell--non-numericS mdl-color-text--white">
                 Prioity
               </th>
             </tr>
@@ -125,7 +124,6 @@ export default class TaskList extends React.Component {
             {Tasks}
           </tbody>
         </table>
-      </div>
     );
   }
 }

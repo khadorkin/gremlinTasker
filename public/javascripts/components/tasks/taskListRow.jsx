@@ -22,18 +22,22 @@ export default class TaskListRow extends React.Component {
   }
 
   render() {
+    let name = this.props.name;
+    if (name.length > 27) {
+      name = name.substring(0,27) + '...';
+    }
     return(
       <tr onClick={this.viewTask}>
         <td className="mdl-data-table__cell--non-numeric">
-          {this.props.name}
+          {name}
         </td>
         <td className="mdl-data-table__cell--non-numeric">
           {formatDisplayDate(this.props.dueDate)}
         </td>
-        <td>
+        <td className="mdl-data-table__cell--non-numeric">
           {this.props.difficulty}
         </td>
-        <td>
+        <td className="mdl-data-table__cell--non-numeric">
           {this.props.priority}
         </td>
       </tr>
