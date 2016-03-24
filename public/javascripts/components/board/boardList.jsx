@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import { hashHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import BasicCard from './../layout/basicCard.jsx';
 import ApiService from './../../middleware/apiService.jsx';
 
@@ -28,6 +28,24 @@ export default class BoardList extends React.Component {
       <h3>Boards</h3>,
       document.getElementById('pageTitle')
     );
+
+    // Add the Create Button.
+    render(
+      (
+        <button onClick={this.createBoard} className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent float float--bottom-right" id="add">
+          <i className="material-icons" role="presentation">add</i>
+          <span className="visuallyhidden">Add</span>
+        </button>
+      ),
+      document.getElementById('buttonHolder')
+    );
+  }
+
+  componentWillUnmount() {
+    render(
+      <div />,
+      document.getElementById('buttonHolder')
+    );
   }
 
     /**
@@ -36,7 +54,7 @@ export default class BoardList extends React.Component {
    */
   displayBoards(err, response) {
     if (err) {
-      return hashHistory.push('/login');
+      return browserHistory.push('/login');
     }
 
     // Set the state for display.
@@ -59,6 +77,10 @@ export default class BoardList extends React.Component {
     this.ApiService.graphQL(query, callBack);
   }
 
+  createBoard() {
+    browserHistory.push('/boards/create');
+  }
+
   buildBoards(board) {
     const params = {
       key: board.id,
@@ -68,9 +90,9 @@ export default class BoardList extends React.Component {
     };
     return <BasicCard {...params} />;
   }
+
   render() {
     const Cards = this.state.boards.map(this.buildBoards);
-
     return (
       <div className="mdl-grid">
         {Cards}

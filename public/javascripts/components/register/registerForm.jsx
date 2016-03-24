@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { hashHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import ApiService from './../../middleware/apiService.jsx';
 
 export default class RegisterForm extends React.Component {
@@ -26,7 +26,7 @@ export default class RegisterForm extends React.Component {
         this.setState(state);
         return;
       }
-      hashHistory.push('login');
+      browserHistory.push('login');
     });
   }
 

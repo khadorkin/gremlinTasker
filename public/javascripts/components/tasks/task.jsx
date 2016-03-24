@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import { hashHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import _ from 'lodash';
 import ApiService from './../../middleware/apiService.jsx';
 import {formatDisplayDate} from './../../lib/utils.jsx';
@@ -73,7 +73,7 @@ export default class Task extends React.Component {
 
     this.ApiService.graphQL(query, (err, response) => {
       if (err) {
-        hashHistory.push('/login');
+        browserHistory.push('/login');
         return;
       }
 

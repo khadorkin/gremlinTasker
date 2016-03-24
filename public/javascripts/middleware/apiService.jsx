@@ -1,7 +1,7 @@
 'use strict';
 
 
-import { hashHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import Axios from 'axios';
 import Cookie from 'js-cookie';
 
@@ -41,7 +41,7 @@ export default class ApiService {
         // If there is a 401 error, return the user to the login screen.
         if (error.status == 401) {
           Cookie.remove('session');
-          hashHistory.push('/login');
+          browserHistory.push('/login');
         }
         return Promise.reject(error);
       }

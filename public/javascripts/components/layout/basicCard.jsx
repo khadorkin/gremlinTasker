@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { hashHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 
 export default class BasicCard extends React.Component {
 
@@ -14,7 +14,7 @@ export default class BasicCard extends React.Component {
 
   handleClick(event) {
     event.preventDefault();
-    hashHistory.push(this.props.link);
+    browserHistory.push(this.props.link);
   }
 
   render() {

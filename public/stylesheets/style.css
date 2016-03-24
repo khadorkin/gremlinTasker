@@ -3,3 +3,13 @@
   padding: 80px 56px;
   margin-bottom: 80px;
 }
+
+.float {
+  z-index: 999;
+  position: absolute;
+}
+
+.float--bottom-right {
+  right: 40px;
+  bottom: 40px;
+}

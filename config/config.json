@@ -24,21 +24,18 @@
     }
   },
   "test": {
-    "db": {
-      "username": "root",
-      "password": null,
-      "database": "database_development",
+    "username": "postgres",
+    "password": "password",
+    "database": "gremlin_tasker_test",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres",
+    "redis": {
       "host": "127.0.0.1",
-      "dialect": "postgres"
+      "port": 6379
     }
   },
   "production": {
-    "db": {
-      "username": "root",
-      "password": null,
-      "database": "database_development",
-      "host": "127.0.0.1",
-      "dialect": "postgres"
-    }
+    "use_env_variable": "DATABASE_CONNECTION_STRING"
   }
 }

@@ -9,7 +9,7 @@ export default class Header extends React.Component {
   render() {
     return (
       <header className="mdl-layout__header">
-        <div className="mdl-layout__header-row">
+        <div className="mdl-layout__header-row ">
           <div
               className="mdl-textfield mdl-textfield--align-left"
               id="pageTitle"
@@ -31,6 +31,7 @@ export default class Header extends React.Component {
             />
           </div>
         </div>
+        <div id="buttonHolder" />
       </header>
     );
   }

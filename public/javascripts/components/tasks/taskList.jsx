@@ -4,7 +4,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import _ from 'lodash';
 import ApiService from './../../middleware/apiService.jsx';
-import { hashHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import TaskListRow from './taskListRow.jsx';
 
 /**
@@ -44,7 +44,7 @@ export default class TaskList extends React.Component {
    */
   displayTasks(err, response) {
     if (err) {
-      return hashHistory.push('/login');
+      return browserHistory.push('/login');
     }
 
     // Combine all the tasks.
@@ -115,7 +115,7 @@ export default class TaskList extends React.Component {
               <th className="mdl-data-table__cell--non-numeric mdl-color-text--white">
                 Difficulty
               </th>
-              <th className="mdl-data-table__cell--non-numericS mdl-color-text--white">
+              <th className="mdl-data-table__cell--non-numeric mdl-color-text--white">
                 Prioity
               </th>
             </tr>

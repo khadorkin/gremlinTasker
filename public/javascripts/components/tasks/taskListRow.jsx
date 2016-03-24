@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { hashHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import { formatDisplayDate } from './../../lib/utils.jsx';
 
 export default class TaskListRow extends React.Component {
@@ -18,7 +18,7 @@ export default class TaskListRow extends React.Component {
    * task details.
    */
   viewTask() {
-    hashHistory.push(`tasks/${this.props.id}`);
+    browserHistory.push(`tasks/${this.props.id}`);
   }
 
   render() {

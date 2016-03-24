@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { hashHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import ApiService from './../../middleware/apiService.jsx';
 
 /**
@@ -35,7 +35,7 @@ export default class LoginForm extends React.Component {
       }
 
       // Go to tasks when logged in.
-      hashHistory.push('/tasks');
+      browserHistory.push('/tasks');
     });
   }
 
