@@ -1,9 +1,9 @@
 'use strict';
 
 import React from 'react';
-import { render } from 'react-dom';
 import { browserHistory } from 'react-router';
 import ApiService from './../../middleware/apiService.jsx';
+import { setPageTitle } from './../layout/pageTitle.jsx';
 
 export default class BoardForm extends React.Component {
   constructor(props) {
@@ -29,16 +29,10 @@ export default class BoardForm extends React.Component {
       this.getBoard(this.prepareForm);
 
       // Render the Title.
-      render(
-        <h3>Edit Board</h3>,
-        document.getElementById('pageTitle')
-      );
+      setPageTitle('Edit Page');
     } else {
       // Render the Title.
-      render(
-        <h3>Create Board</h3>,
-        document.getElementById('pageTitle')
-      );
+      setPageTitle('Create Board');
     }
   }
 

@@ -3,6 +3,8 @@ redis:
 
 db:
   image: postgres
+  ports:
+    - "5432:5432"
   environment:
     POSTGRES_DB: gremlin_tasker
     POSTGRES_PASSWORD: pizzaIsL0veP1zzaIsL1fe

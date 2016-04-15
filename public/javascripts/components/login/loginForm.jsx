@@ -1,13 +1,14 @@
 'use strict';
 
 import React from 'react';
+import FormComponent from './../formComponent.jsx';
 import { browserHistory } from 'react-router';
 import ApiService from './../../middleware/apiService.jsx';
 
 /**
  * This is the Login Form itself.
  */
-export default class LoginForm extends React.Component {
+export default class LoginForm extends FormComponent {
 
   constructor(props) {
     super(props);
@@ -20,31 +21,17 @@ export default class LoginForm extends React.Component {
 
     // Bind the local instance to the methods.
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    this.ApiService.login(this.state, (err) => {
-      // Handle the error if any.
-      if (err != null) {
-        if (err.data) {
-          this.setState({err: err.data.message});
-        }
-        return;
-      }
-
-      // Go to tasks when logged in.
+    const login = this.ApiService.login(this.state);
+    login.then( (response) => {
+      this.ApiService.setSession(response.data);
       browserHistory.push('/tasks');
+    }).catch( (response) => {
+      this.setState({err: response.data.message});
     });
-  }
-
-  handleChange(fieldName) {
-    return (event) => {
-      let state = {};
-      state[fieldName] = event.target.value;
-      this.setState(state);
-    };
   }
 
   render() {

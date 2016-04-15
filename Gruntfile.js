@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     shell: {
       migrate: {
-        command: './node_modules/.bin/sequelize db:migrate'
+        command: 'node_modules/.bin/sequelize db:migrate'
       }
     },
     webpack: {
@@ -60,4 +60,5 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['webpack', 'shell:migrate']);
+  grunt.registerTask('migrate', ['shell:migrate']);
 };

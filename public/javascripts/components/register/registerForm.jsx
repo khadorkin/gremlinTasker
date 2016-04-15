@@ -1,10 +1,11 @@
 'use strict';
 
 import React from 'react';
+import FormComponent from './../formComponent.jsx';
 import { browserHistory } from 'react-router';
 import ApiService from './../../middleware/apiService.jsx';
 
-export default class RegisterForm extends React.Component {
+export default class RegisterForm extends FormComponent {
 
   constructor(props) {
     super(props);
@@ -15,27 +16,20 @@ export default class RegisterForm extends React.Component {
     };
 
     this.ApiService = new ApiService();
+
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    this.ApiService.register(this.state, (err) => {
-      if (err) {
-        let state = this.state;
-        state.error = err.data.message;
-        this.setState(state);
-        return;
-      }
+    const register = this.ApiService.register(this.state);
+    register.then( () => {
       browserHistory.push('login');
-    });
-  }
-
-  handleChange(fieldName) {
-    return (event) => {
-      let state = {};
-      state[fieldName] = event.target.value;
+    }).catch( (response) => {
+      let state = this.state;
+      state.error = response.data.message;
       this.setState(state);
-    };
+    });
   }
 
   render() {

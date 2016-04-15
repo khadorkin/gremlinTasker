@@ -3,7 +3,10 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { browserHistory } from 'react-router';
+import Rx from 'rx';
 import BasicCard from './../layout/basicCard.jsx';
+import FabButton from './../layout/fabButton.jsx';
+import { setPageTitle } from './../layout/pageTitle.jsx';
 import ApiService from './../../middleware/apiService.jsx';
 
 export default class BoardList extends React.Component {
@@ -15,28 +18,19 @@ export default class BoardList extends React.Component {
     this.ApiService = new ApiService();
 
     // Bind this context to custom functions.
-    this.displayBoards = this.displayBoards.bind(this);
     this.getBoards = this.getBoards.bind(this);
   }
 
   componentDidMount() {
     // Load the tasks and set the state.
-    this.getBoards(this.displayBoards);
+    this.getBoards();
 
     // Render the Title.
-    render(
-      <h3>Boards</h3>,
-      document.getElementById('pageTitle')
-    );
+    setPageTitle('Boards');
 
     // Add the Create Button.
     render(
-      (
-        <button onClick={this.createBoard} className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent float float--bottom-right" id="add">
-          <i className="material-icons" role="presentation">add</i>
-          <span className="visuallyhidden">Add</span>
-        </button>
-      ),
+      <FabButton handleClick={this.createBoard} icon="add" label="Add"  />,
       document.getElementById('buttonHolder')
     );
   }
@@ -48,20 +42,7 @@ export default class BoardList extends React.Component {
     );
   }
 
-    /**
-   * Process the response from the getTasks function and
-   * display all the tasks.
-   */
-  displayBoards(err, response) {
-    if (err) {
-      return browserHistory.push('/login');
-    }
-
-    // Set the state for display.
-    this.setState({boards: response.data.user.boards});
-  }
-
-  getBoards(callBack) {
+  getBoards() {
     const query = `
       query {
         user {
@@ -74,7 +55,18 @@ export default class BoardList extends React.Component {
     `;
 
     // Run the query and call the callback.
-    this.ApiService.graphQL(query, callBack);
+    const promise = this.ApiService.graphQL(query);
+    const request = Rx.Observable.fromPromise(promise);
+    request.subscribe(
+      (response) => {
+        // Set the state for display.
+        this.setState({boards: response.data.data.user.boards});
+      },
+      (response) => {
+        console.log(response);
+        return browserHistory.push('/login');
+      }
+    );
   }
 
   createBoard() {

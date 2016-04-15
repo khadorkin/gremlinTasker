@@ -24,6 +24,11 @@ export default class ApiService {
     return {};
   }
 
+  setSession(sessionData) {
+    sessionStorage.setItem('session', JSON.stringify(sessionData));
+    Cookie.set('session', sessionData);
+  }
+
   getBaseApi() {
     if (this.session) {
       this.apiConfig.headers = {
@@ -59,6 +64,7 @@ export default class ApiService {
     return this.getSession().hasOwnProperty('session_id');
   }
 
+
   /**
    * This is the deleteUserSession callback.
    * @callback ApiCallBack
@@ -70,53 +76,33 @@ export default class ApiService {
    * This will create a user Session after logging in the user.
    *
    * @param {String} uuid
-   * @param {ApiCallBack} callBack
+   *
+   * @returns {Promise}
    */
-  login(loginData, callBack) {
-    this.getBaseApi()
-      .post('users/login', loginData)
-      .then( (response) => {
-        sessionStorage.setItem('session', JSON.stringify(response.data));
-        Cookie.set('session', response.data);
-        this.session = response.data;
-        callBack(null, response);
-      })
-      .catch( (response) => {
-        callBack(response, null);
-      });
+  login(loginData) {
+    return this.getBaseApi()
+      .post('users/login', loginData);
   }
 
   /**
    * This will create a user.
    *
    * @param {String} uuid
-   * @param {ApiCallBack} callBack
+   * @return {Promise}
    */
-  register(registerData, callBack) {
-    this.getBaseApi()
-      .post('users/register', registerData)
-      .then( (response) => {
-        callBack(null, response);
-      })
-      .catch((response) => {
-        callBack(response, null);
-      });
+  register(registerData) {
+    return this.getBaseApi()
+      .post('users/register', registerData);
   }
 
   /**
    * This will run a graphQL query.
    *
    * @param {String} uuid
-   * @param {ApiCallBack} callBack
+   * @return {Promise}
    */
-  graphQL(query, callBack) {
-    this.getBaseApi()
-      .post('graphql', {query: query})
-      .then( (response) => {
-        callBack(null, response.data);
-      })
-      .catch( (response) => {
-        callBack(response, null);
-      });
+  graphQL(query) {
+    return this.getBaseApi()
+      .post('graphql', {query: query});
   }
 }

@@ -4,6 +4,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { browserHistory } from 'react-router';
 import _ from 'lodash';
+import Rx from 'rx';
 import ApiService from './../../middleware/apiService.jsx';
 import {formatDisplayDate} from './../../lib/utils.jsx';
 
@@ -71,22 +72,27 @@ export default class Task extends React.Component {
       }
     `;
 
-    this.ApiService.graphQL(query, (err, response) => {
-      if (err) {
-        browserHistory.push('/login');
-        return;
-      }
+    // Run the query get the task.
+    const promise = this.ApiService.graphQL(query);
+    const request = Rx.Observable.fromPromise(promise);
 
-      const task = _.find(
-        response.data.user.boards,
-        (board) => {
-          return _.size(board.tasks) > 0;
+    request.subscribe(
+      (response) => {
+        const task = _.find(
+          response.data.data.user.boards,
+          (board) => {
+            return _.size(board.tasks) > 0;
+          }
+        );
+        if (task) {
+          this.setState(task.tasks[0]);
         }
-      );
-      if (task) {
-        this.setState(task.tasks[0]);
+      },
+      (error) => {
+        console.log(error);
+        browserHistory.push('/login');
       }
-    });
+    );
   }
 
   buildComments(comment) {

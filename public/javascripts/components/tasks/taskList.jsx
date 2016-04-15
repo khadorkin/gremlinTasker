@@ -6,6 +6,8 @@ import _ from 'lodash';
 import ApiService from './../../middleware/apiService.jsx';
 import { browserHistory } from 'react-router';
 import TaskListRow from './taskListRow.jsx';
+import Rx from 'rx';
+import { extract } from './../../lib/utils.jsx';
 
 /**
  * This will build out a table for the tasks.
@@ -23,13 +25,13 @@ export default class TaskList extends React.Component {
     this.ApiService = new ApiService();
 
     // Bind this context to custom functions.
-    this.displayTasks = this.displayTasks.bind(this);
     this.getTasks = this.getTasks.bind(this);
+    this.processTasks = this.processTasks.bind(this);
   }
 
   componentDidMount() {
     // Load the tasks and set the state.
-    this.getTasks(this.displayTasks);
+    this.getTasks();
 
     // Render the Title.
     render(
@@ -38,35 +40,7 @@ export default class TaskList extends React.Component {
     );
   }
 
-  /**
-   * Process the response from the getTasks function and
-   * display all the tasks.
-   */
-  displayTasks(err, response) {
-    if (err) {
-      return browserHistory.push('/login');
-    }
-
-    // Combine all the tasks.
-    let tasks = _.reduce(
-      response.data.user.boards,
-      (carry, value) => {
-        value.tasks.forEach((task) => {
-          carry.push(task);
-        });
-        return carry;
-      },
-      []
-    );
-
-    // Make sure there are not duplicates.
-    // tasks = _.uniqWith(tasks, _.isEqual);
-
-    // Set the state for display.
-    this.setState({tasks: tasks});
-  }
-
-  getTasks(callBack) {
+  getTasks() {
     // Build the GraphQL query to tasks list.
     let boardQuery = '';
     if (this.state.boardId) {
@@ -90,8 +64,27 @@ export default class TaskList extends React.Component {
       }
     `;
 
-    // Run the query and call the callback.
-    this.ApiService.graphQL(query, callBack);
+    // Run the query and get the tasks.
+    const promise = this.ApiService.graphQL(query);
+    const request = Rx.Observable.fromPromise(promise);
+
+    request.subscribe(
+      (response) => {
+        // console.log(response);
+        this.processTasks(response.data.data.user.boards);
+      },
+      (error) => {
+        console.log(error);
+        browserHistory.push('/login');
+      }
+    );
+  }
+
+  processTasks(boards) {
+    // Combine all the tasks.
+    // console.log(boards);
+    let tasks = extract(boards, '*.tasks.*');
+    this.setState({tasks: tasks});
   }
 
   buildTaskRow(task) {
